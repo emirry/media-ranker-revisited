@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, except: [:find_user]
+  skip_before_action :require_login, only: [:index]
   def index
     @users = User.all
   end
@@ -11,16 +11,23 @@ class UsersController < ApplicationController
 
   def create
     auth_hash = request.env["omniauth.auth"]
-    user = User.find_by(uid: auth_hash[:uid], provider: params[:provider])
+    @user = User.find_by(uid: auth_hash[:uid], provider: params[:provider])
 
-    if user
-      flash[:notice] = "Existing user #{user.username} is logged in."
+    if @user
+      flash[:notice] = "Existing user #{@user.username} is logged in."
     else
+      @user = User.build_from_github(auth_hash)
+      if @user.save
+        flash[:success] = "Logged in as new user #{@user.username}"
+      else
+        flash[:error] = "Could not create user account #{@user.errors.messages}"
+      end
 
     end
 
-    session[:user_id] = user.id
+    session[:user_id] = @user.id
     redirect_to root_path
+    return
   end
 
   def login_form
