@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: [:index]
+  skip_before_action :require_login, except: [:find_user]
+
   def index
     @users = User.all
   end
@@ -22,7 +23,6 @@ class UsersController < ApplicationController
       else
         flash[:error] = "Could not create user account #{@user.errors.messages}"
       end
-
     end
     session[:user_id] = @user.id
     redirect_to root_path
