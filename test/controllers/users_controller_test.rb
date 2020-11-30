@@ -15,19 +15,21 @@ describe UsersController do
       expect(flash[:notice]).must_equal "Logged in as returning user #{user.username}"
     end
 
-  #   it "creates an account for a new user and redirects to the root route" do
-  #     user = User.new(provider: "github", uid: 99999, username: "test_user", email: "test@user.com")
+    it "creates an account for a new user and redirects to the root route" do
+      new_user = User.new(provider: "github", uid: 99999, username: "test_user", email: "test@user.com")
 
-  #     expect {
-  #       perform_login(user)
-  #     }.must_differ "User.count", 1
+      expect {
+        perform_login(new_user)
+      }.must_differ "User.count", 1
 
-  #     must_redirect_to root_path
-  #     expect(session[:user_id]).must_equal(User.find_by(provider: user.provider, 
-  #       uid: user.uid, email: user.email).id)
-  #       expect(flash[:notice]).must_equal "Logged in as new user #{user.username}"
 
-    # end
+
+      must_redirect_to root_path
+      expect(session[:user_id]).must_equal(User.find_by(provider: new_user.provider,
+        uid: new_user.uid, username: new_user.username, email: new_user.email).id)
+        expect(flash[:success]).must_equal "Logged in as new user #{new_user.username}"
+
+    end
 
   #   it "will handle a request with invalid information" do
   #     user = User.new(provider: "github", uid: nil, username: nil, email: nil)
