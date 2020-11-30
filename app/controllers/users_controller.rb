@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @user = User.find_by(uid: auth_hash[:uid], provider: params[:provider])
 
     if @user
-      flash[:notice] = "Existing user #{@user.username} is logged in."
+      flash[:notice] = "Logged in as returning user #{@user.username}"
     else
       @user = User.build_from_github(auth_hash)
       if @user.save
@@ -24,7 +24,6 @@ class UsersController < ApplicationController
       end
 
     end
-
     session[:user_id] = @user.id
     redirect_to root_path
     return

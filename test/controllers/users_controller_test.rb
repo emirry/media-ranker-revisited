@@ -1,19 +1,19 @@
 require "test_helper"
 
 describe UsersController do
-  # Tests written for Oauth.    
-  # describe "auth_callback" do
-  #   it "logs in an existing user and redirects to the root path" do
-  #     user = users(:dan)
+  # Tests written for Oauth.
+  describe "auth_callback" do
+    it "logs in an existing user and redirects to the root path" do
+      user = users(:dan)
 
-  #     expect {
-  #       perform_login(user)
-  #     }.wont_change "User.count"
+      expect {
+        perform_login(user)
+      }.wont_change "User.count"
 
-  #     must_redirect_to root_path
-  #     expect(session[:user_id]).must_equal user.id
-  #     expect(flash[:notice]).must_equal "Logged in as returning user #{user.username}"
-  #   end
+      must_redirect_to root_path
+      expect(session[:user_id]).must_equal user.id
+      expect(flash[:notice]).must_equal "Logged in as returning user #{user.username}"
+    end
 
   #   it "creates an account for a new user and redirects to the root route" do
   #     user = User.new(provider: "github", uid: 99999, username: "test_user", email: "test@user.com")
@@ -27,7 +27,7 @@ describe UsersController do
   #       uid: user.uid, email: user.email).id)
   #       expect(flash[:notice]).must_equal "Logged in as new user #{user.username}"
 
-  #   end
+    # end
 
   #   it "will handle a request with invalid information" do
   #     user = User.new(provider: "github", uid: nil, username: nil, email: nil)
@@ -44,7 +44,7 @@ describe UsersController do
   #     expect(flash[:error]).must_equal ["Could not create new user account username: [\"can't be blank\"]"]
   #     expect(session[:user_id]).must_equal nil
   #   end
-  # end
+  end
 
   # describe "logout" do
   #   it "will log out a logged in user" do
